@@ -1,0 +1,2 @@
+0:0:0:0:0:0:0:1 - - [22/Feb/2016:09:35:46 +0800] "GET /Sportnews/user/init-test HTTP/1.1" 200 111 http-bio-8888-exec-1 29496
+0:0:0:0:0:0:0:1 - - [22/Feb/2016:09:35:47 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8888-exec-3 0

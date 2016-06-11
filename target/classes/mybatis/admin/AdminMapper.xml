@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.admin.repository.AdminMapper" >
+
+    <select id="GetAdminList" parameterType="java.lang.String" resultType="com.jxufe.sport_news.admin.entity.Admin">
+        SELECT * FROM t_admin
+    </select>
+    <insert id="InsertAdmin" parameterType="com.jxufe.sport_news.admin.entity.Admin">
+         insert into t_admin (id, username, password,
+        role)
+        values (#{admin.id}, #{admin.username}, #{admin.password},
+        #{admin.role})
+    </insert>
+    <delete id="DeleteAdmin" parameterType="java.lang.String">
+        DELETE FROM t_admin WHERE t_admin.id=#{id}
+    </delete>
+    <select id="SelectAdminById" parameterType="java.lang.String" resultType="com.jxufe.sport_news.admin.entity.Admin">
+        SELECT * FROM t_admin ta WHERE ta.id=#{id}
+    </select>
+    <update id="UpdateAdmin" parameterType="com.jxufe.sport_news.admin.entity.Admin">
+         update t_admin ta
+        set ta.username = #{admin.username}, ta.password = #{admin.password}, ta.role = #{admin.role}
+    </update>
+
+    <select id="SelectAdminByName" parameterType="java.lang.String" resultType="com.jxufe.sport_news.admin.entity.Admin">
+        SELECT * FROM t_admin ta WHERE ta.username=#{username}
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.sys.repository.HeadMapper" >
+    <select id="GetHeadList" parameterType="java.lang.String" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+    SELECT tn.id,tn.title,tn.sub_date,tn.comment_num,tn.good_num,tc.catgory FROM t_news tn
+    LEFT JOIN t_headline th ON tn.id = th.new_id
+    LEFT JOIN t_catgory tc ON tn.catgory=tc.id
+    WHERE tn.ishead='1'
+        <if test="title!=null and title!=''">
+            AND tn.title LIKE CONCAT('%',#{title},'%')
+        </if>
+        ORDER BY tn.sub_date DESC
+    </select>
+    <select id="GetNotHeadList" parameterType="java.lang.String" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+        SELECT tn.id,tn.title,tn.sub_date,tn.comment_num,tn.good_num,tc.catgory FROM t_news tn
+        LEFT JOIN t_headline th ON tn.id = th.new_id
+        LEFT JOIN t_catgory tc ON tn.catgory=tc.id
+        WHERE tn.ishead='0'
+        <if test="title!=null and title!=''">
+            AND tn.title LIKE CONCAT('%',#{title},'%')
+        </if>
+        ORDER BY tn.sub_date DESC
+    </select>
+
+    <update id="SetHead" parameterType="java.lang.String">
+        UPDATE t_news SET t_news.ishead='1' WHERE t_news.id=#{id}
+    </update>
+
+    <update id="DeleteHead" parameterType="java.lang.String">
+        UPDATE t_news SET t_news.ishead='0' WHERE t_news.id=#{id}
+    </update>
+</mapper>

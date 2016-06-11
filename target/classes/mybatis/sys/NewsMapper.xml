@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.sys.repository.NewsMapper" >
+    <resultMap id="NewsList" type="com.jxufe.sport_news.sys.entity.NewsVO">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="sub_date" property="sub_date"/>
+        <result column="comment_num" property="comment_num"/>
+        <result column="catgory" property="catgory"/>
+        <result column="good_num" property="good_num"/>
+    </resultMap>
+    <select id="getNewsList" parameterType="java.lang.String" resultMap="NewsList">
+        SELECT tn.id,tn.title,tn.sub_date,tn.comment_num,tn.good_num,tc.catgory FROM t_news tn
+        LEFT JOIN t_catgory tc ON tn.catgory=tc.id
+        WHERE 1=1
+    <if test="title!=null and title!=''">
+       AND tn.title LIKE CONCAT('%',#{title},'%')
+    </if>
+        ORDER BY tn.sub_date DESC
+    </select>
+
+    <delete id="deleteNew" parameterType="java.lang.String">
+        DELETE FROM t_news WHERE t_news.id=#{id}
+    </delete>
+
+    <insert id="insertNes" parameterType="com.jxufe.sport_news.sys.entity.News" >
+        insert into t_news (id, title, content,
+        picname, catgory,comment_num,good_num,sub_date,ishead)
+        values (#{news.id}, #{news.title}, #{news.content},
+        #{news.picname}, #{news.catgory}, #{news.commentNum}, #{news.goodNum}, #{news.subDate},#{news.ishead})
+    </insert>
+
+    <select id="SelectNewsById" parameterType="java.lang.String" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+        SELECT * FROM t_news tn WHERE tn.id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.jxufe.sport_news.sys.entity.NewsVO" >
+        update t_news tn
+        set tn.id = #{news.id}, tn.title = #{news.title}, tn.content = #{news.content},
+        tn.picname = #{news.picname}, tn.catgory = #{news.catgory}, tn.comment_num = #{news.commentNum}, tn.good_num = #{news.goodNum}, tn.sub_date = #{news.subDate}
+        where tn.id = #{news.id}
+    </update>
+    <select id="SelectNews" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+        SELECT * FROM t_news tn WHERE tn.ishead='0'
+    </select>
+    <select id="SelectHeadNews" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+        SELECT * FROM t_news tn WHERE tn.ishead='1'
+    </select>
+    <select id="GetNewsBycatgory" parameterType="java.lang.String" resultType="com.jxufe.sport_news.sys.entity.NewsVO">
+        SELECT * FROM t_news tn WHERE tn.catgory=#{catgory}
+    </select>
+</mapper>

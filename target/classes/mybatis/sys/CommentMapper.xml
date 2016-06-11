@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.sys.repository.CommentMapper" >
+    <resultMap id="CommentList" type="com.jxufe.sport_news.sys.entity.CommentVO">
+        <result property="content" column="content"/>
+        <result property="entry_date" column="entry_date"/>
+        <result property="name" column="name"/>
+        <result property="new_id" column="title"/>
+        <result property="id" column="id"/>
+    </resultMap>
+    <select id="GetCommentList" resultMap="CommentList">
+        SELECT tc.id,tc.content,tc.entry_date,tu.name,tn.title FROM t_comment tc
+        LEFT JOIN t_user tu ON tc.name = tu.id
+        LEFT JOIN t_news tn ON tc.new_id = tn.id
+                ORDER BY tc.entry_date DESC
+    </select>
+
+    <delete id="DeleteComment" parameterType="java.lang.String">
+        DELETE FROM t_comment WHERE t_comment.id=#{id}
+    </delete>
+
+    <select id="GetComment" resultMap="CommentList">
+        SELECT tc.id,tc.content,tc.entry_date,tu.name,tn.title FROM t_comment tc
+        LEFT JOIN t_user tu ON tc.name = tu.id
+        LEFT JOIN t_news tn ON tc.new_id = tn.id
+                ORDER BY tc.entry_date DESC
+    </select>
+
+    <insert id="InsertComment" parameterType="com.jxufe.sport_news.sys.entity.Comment">
+         insert into t_comment (id, name, new_id,
+        content, entry_date)
+        values (#{comment.id}, #{comment.name}, #{comment.new_id}, #{comment.content},
+        #{comment.entry_date})
+    </insert>
+
+    <select id="GetCommentListByNews" parameterType="java.lang.String" resultMap="CommentList">
+        SELECT tc.id,tc.content,tc.entry_date,tu.name,tn.title FROM t_comment tc
+        LEFT JOIN t_user tu ON tc.name = tu.id
+        LEFT JOIN t_news tn ON tc.new_id = tn.id
+        WHERE tc.new_id=#{id}
+        ORDER BY tc.entry_date DESC
+    </select>
+</mapper>

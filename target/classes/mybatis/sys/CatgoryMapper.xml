@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.sys.repository.CatgoryMapper" >
+    <resultMap id="CatgoryList" type="com.jxufe.sport_news.sys.entity.Catgory">
+        <result column="catgory" property="catgory"/>
+        <result column="id" property="id"/>
+    </resultMap>
+    <select id="GetCatgoryList" resultMap="CatgoryList">
+         SELECT tc.id,tc.catgory FROM t_catgory tc
+    </select>
+
+    <delete id="deleteCatgory" parameterType="java.lang.String">
+        DELETE FROM t_catgory WHERE t_catgory.id=#{id}
+    </delete>
+
+    <insert id="insertCatgory" parameterType="com.jxufe.sport_news.sys.entity.Catgory">
+     insert into t_catgory (id, catgory)
+        values (#{catgory.id}, #{catgory.catgory})
+
+    </insert>
+
+    <select id="GetCatgory" resultType="com.jxufe.sport_news.sys.entity.Catgory">
+        SELECT * FROM t_catgory
+    </select>
+
+    <select id="selectCatgoryById" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT tc.catgory FROM t_catgory tc WHERE 1=1
+        <if test="id!=null and id!=''">
+          AND  tc.id = #{id}
+        </if>
+    </select>
+
+</mapper>

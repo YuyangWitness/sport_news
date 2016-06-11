@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxufe.sport_news.sys.repository.CommentMapper" >
+    <resultMap id="CommentList" type="com.jxufe.sport_news.sys.entity.Comment">
+        <result property="content" column="content"/>
+        <result property="entry_date" column="entry_date"/>
+        <result property="name" column="name"/>
+        <result property="news_id" column="title"/>
+        <result property="id" column="id"/>
+    </resultMap>
+    <select id="GetCommentList" resultMap="CommentList">
+        SELECT tc.id,tc.content,tc.entry_date,tu.name,tn.title FROM t_comment tc
+        LEFT JOIN t_user tu ON tc.name = tu.id
+        LEFT JOIN t_news tn ON tc.new_id = tn.id
+    </select>
+</mapper>
